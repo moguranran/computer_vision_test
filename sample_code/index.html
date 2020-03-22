@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>実践コンピュータビジョン　サンプルプログラム</title>
+<link rel="stylesheet" href="mystyle.css">
+</head>
+<body>
+<h1>実践コンピュータビジョン サンプルプログラム</h1>
+<h2>はじめに</h2>
+<p><a href="http://www.oreilly.co.jp/books/9784873116075/">「実践コンピュータビジョン」</a>のサンプルプログラムについて、本書に掲載順に説明します。
+<p>なお、本アーカイブにはプログラムのみ収められているので、画像ファイルは別途ダウンロードしていただく必要があります。empire.jpg等の原著者の提供している画像は、<a href="http://programmingcomputervision.com/">原著者のサイト</a>から
+<a href="http://programmingcomputervision.com/downloads/pcv_data.zip">pcv_data.zip</a>
+をダウンロードして展開してください。
+これ以外の画像ファイルは、各章で説明します。
+画像ファイルの配置方法も、各章ごとに記載します。
+
+<p>プログラムの実行は、次のように、それぞれの*.pyファイルをpythonの引数にして起動します。
+<pre>
+$ python 1.1.pil.py
+</pre>
+
+<p>必要なパッケージや外部プログラムは、本書の付録にしたがって事前にインストールしておいてください。
+
+<h2>1章</h2>
+
+<h3>準備</h3>
+<p>pcv_data.zipからempire.jpgとhouses.pngを展開してカレントディレクトリに置いて下さい。
+<p>pcv_data.zipに含まれるfontimages.zipを、a_thumbs/*.jpg となるように展開して下さい。
+
+<h3>1.1.pil.py</h3>
+<p>PILを使って画像ファイルempire.jpgを読み込み、回転や切り貼りをして表示します。
+
+<h3>1.2.1.matplot.py</h3>
+<p>Matplotlibを使って画像を表示し点や線を描画します。
+
+<h3>1.2.2.contour_histgram.py</h3>
+<p>等高線画像とヒストグラムを求めて描画します。
+
+<h3>1.2.3.ginput.py</h3>
+<p>ユーザーに座標を入力してもらいます。3箇所クリックしてください。
+
+<h3>1.3.1.arrayimg.py</h3>
+<p>画像をNumPyの配列に変換して扱います。
+
+<h3>1.3.2.graylevel.py</h3>
+<p>グレーレベルを変換します。
+
+<h3>1.3.4.histeq.py</h3>
+<p>グレーレベルをヒストグラム平坦化します。
+
+<h3>1.3.5.average.py</h3>
+<p>a_thumb/*.jpgのフォント画像を読み込んで、平均画像を表示します。
+
+<h3>1.3.6.pca_test.py</h3>
+<p>a_thumb/*.jpgのフォント画像を読み込んで、主成分分析をします。
+<p>さらに、pickleを用いて、平均と主成分をfont_pca_modes.pklというファイルに保存します。このファイルは、6.1.2で用います。
+
+<h3>1.4.1.gauss.py</h3>
+<p>ガウシアンでぼかします。
+
+<h3>1.4.1.gauss_color.py</h3>
+<p>色チャンネル毎にガウシアンでぼかします。
+
+<h3>1.4.2.sobel.py</h3>
+<p>Sobelフィルタで画像の微分を計算し、x,y方向の微分係数と、勾配の大きさを画像として表示します。勾配画像をmagnitude.pngとして保存します。
+
+<h3>1.4.2.gauss_deriv.py</h3>
+<p>ガウシアン微分を計算し、x,y方向の微分係数と、勾配の大きさを画像として表示します。
+
+<h3>1.4.3.label.py</h3>
+<p>画像ファイルhouses.pngを読み込み、ラベリングしてラベル画像を表示します。
+
+<h3>1.4.3.morph_opening.py</h3>
+<p>Opening処理をして、ラベル画像を表示します。
+
+<h3>1.4.4.1.mat.py</h3>
+<p>NumPyの配列をMATLAB形式のファイルtest.matに保存し、もう一度読み込んで表示します。
+
+<h3>1.4.4.2.save_lena.py</h3>
+<p>Lena画像を test.jpg として保存します。
+
+<h3>1.5.denoise.py</h3>
+<p>ノイズ画像を生成し、ガウシアンとROFでノイズ除去して表示します。ノイズ画像をsynth_rof.pdf、ガウシアンでノイズ除去した画像をsynth_gaussian.pdf、ROFでノイズ除去した画像をsynth_rof.pdfで、それぞれ保存します。
+
+<h3>1.5.denoise2.py</h3>
+<p>画像ファイルempire.jpgについて、ROFでノイズ除去して表示します。
+
+
+<h3>imtools.py</h3>
+<p>画像に関するユーティリティー関数を収めたモジュールで、他のプログラムから読み込んで使われます。
+
+<h3>pca.py</h3>
+<p>主成分分析を行うモジュールです。
+
+<h3>rof.py</h3>
+<p>ROFによりノイズ除去を行うモジュールです。
+
+<h2>2章</h2>
+
+<h3>準備</h3>
+<p>pca_data.zipから、empire.jpg、sf_view1.jpg、sf_view2.jpgを展開してカレントディレクトリに置きます。
+<p>外部プログラムとして、VLFeatのsiftを用いるので、実行できるようにsiftにパスを通しておいてください。
+
+<h3>2.1.harris.py</h3>
+<p>empire.jpgからHarrisコーナーを計算して表示します。
+
+<h3>2.1.1.harris_match.py</h3>
+<p>sf_view1.jpgとsf_view2.jpgの間でHarrisコーナーを対応づけて表示します。計算に時間がかかります。
+
+<h3>2.2.3.sift.py</h3>
+<p>empire.jpgからSIFT特徴点を検出して表示します。SIFT特徴量をempire.siftというファイルに保存します。
+
+<h3>2.2.4.sift_match.py</h3>
+<p>sf_view1.jpgとsf_view2.jpgの間で、SIFT特徴点を対応づけて表示します。SIFT特徴量をsf_view1.jpg.siftとsf_view2.jpg.siftとして保存します。
+
+<h3>2.3.1.panoramio_dl.py</h3>
+<p>Panoramioからホワイトハウス周辺の画像をダウンロードし、panoramio/*.jpg として保存されます。Panoramioには常に画像が投稿されているので、ダウンロードされるファイルは変動します。
+
+<h3>2.3.2.pano_sift_match.py</h3>
+<p>Panoramioの画像panoramio/*.jpgを読み込み、SIFT特徴量を計算して対応付け、対応づけられた特徴点の数を表示します。総当たりで対応付けを計算するのに多少時間がかかります。SIFT特徴量をpanoramio/*.jpg.siftに保存し、対応付けデータをpanoramio_matchscores.pkl に保存します。
+
+<h3>2.3.3.pydot.py</h3>
+<p>Pydotを使い、図2-9のグラフを描画して、graph.png に保存します。
+
+<h3>2.3.3.pano_pydot.py</h3>
+<p>先に計算したPanoramioの画像の対応付けデータ（panoramio_matchscores.pkl）を読み込み、画像の類似グラフを描画して、whitehouse.pngに保存します。
+
+<h3>harris.py</h3>
+<p>Harrisコーナーを計算したり対応づけをするモジュールです。
+
+<h3>sift.py</h3>
+<p>VLFeatのsiftを実行してSIFT特徴量を計算したり対応づけするモジュールです。
+
+<h3>imtools.py</h3>
+<p>1章と同じです。
+
+
+<h2>3章</h2>
+<h3>準備</h3>
+<p>pca_data.zipから、empire.jpg、Univ1.jpg～Univ5.jpgを展開してカレントディレクトリに置きます。
+<p>以下の画像を、それぞれFlickrからダウンロードしてください。
+<ul>
+<li><a href="http://flickr.com/photos/striatic/21671910/">billboard_for_rent.jpg</a> 660x1024
+<li><a href="http://flickr.com/photos/ericingrum/4038961240/">blank_billboard.jpg</a> 1024x576
+<li><a href="http://flickr.com/photos/kneva/560380352/">cat.jpg</a> 640x428
+<li><a href="http://flickr.com/photos/newsoresund/8186379972/">turningtorso1.jpg</a> 2336x3504
+<li><a href="http://flickr.com/photos/jpck/3344929385/">sunset_tree.jpg</a> 480x640
+</ul>
+
+<p>turningtorso1.jpg は、次のように一部を切り出しておきます。
+<pre>
+import shutil
+from PIL import Image
+fn = 'turningtorso1.jpg'
+shutil.copyfile(fn, fn + '.org')
+src = Image.open(fn)
+dst = src.crop((900,508,1325,1384))
+dst.save(fn)
+</pre>
+
+<p>pcv_data.zipに含まれるjkfaces.zipを展開し、JPEGファイルをjkfaces2008_smallにコピーして下さい。pcv_data.zipのjkfaces.xmlは、データが間違っているので、訳者が作成したjkfaces2008_small/jkfaces.xmlを使って下さい。
+
+<p><a href="http://www.scipy.org/Cookbook/RANSAC">http://www.scipy.org/Cookbook/RANSAC</a> のページの一番下からransac.py をダウンロードしてください。
+
+<h3>3.2.warping.py</h3>
+<p>empire.jpgを読み込み、アフィン変換で変形して表示します。
+
+<h3>3.2.1.warping.py</h3>
+<p>cat.jpgを変形して、billboard_for_rent.jpg の中に合成します。
+
+<h3>3.2.1.warping_tri.py</h3>
+<p>cat.jpgをblank_billboard.jpg の中に合成します。単純にアフィン変換したものと、三角形に分割してそれぞれアフィン変換したものを表示します。Pythonde三角形の透明度マップを計算しているので、時間がかかります。
+
+<h3>3.2.2.delaunay.py</h3>
+<p>ランダムな点をドロネー三角形分割して表示します。
+
+<h3>3.2.2.piecewise.py</h3>
+<p>分割点をturningtorso1_points.txt から読み込み、sunset_tree.jpgを分割アフィンワーピングして、turningtorso1.jpgに合成して表示します。
+
+<h3>3.2.3.imreg.py</h3>
+<p>jkfaces2008_small/jkfaces.xmlと、jkfaces2008_small/*.jpgを読み込んで、画像を位置合わせして、jkfaces2008_small/aligned/*.jpgに保存します。
+
+<h3>3.2.3.average.py</h3>
+<p>jkfaces2008_small/*.jpg の平均画像と、jkfaces2008_small/aligned/*.jpg の平均画像を求めて表示します。
+
+<h3>3.2.3.pca.py</h3>
+<p>顔画像に楕円形のマスクをかけて主成分分析をして表示します。
+
+<h3>3.3.2.sift.py</h3>
+<p>Univ1.jpg～Univ5.jpgのSIFT特徴量を計算して対応づけて表示します。SIFT特徴量をUniv1.sift～Univ5.siftにそれぞれ保存します。対応付けに多少時間がかかります。
+
+<h3>3.3.3.ransac_pano.py</h3>
+<p>Univ1.jpg～Univ5.jpgのSIFT特徴量を計算し、RANSACでロバストに対応づけて、パノラマ画像を合成します。対応付けと合成に非常に時間がかかります。
+<p>画像を縮小すれば時間を短縮できます。その際、Univ4.jpgとUniv5.jpgの対応点が少なくてエラーになることがあります。その場合は、H_43の計算とim_42の合成をコメントアウトし、im_32を表示するようにして下さい。
+
+<h3>warp.py</h3>
+<p>画像の変形を行うモジュールです。
+<h3>homograpy.py</h3>
+<p>ホモグラフィー関連のモジュールです。
+<h3>imregistration.py</h3>
+<p>画像の位置合わせをするモジュールです。
+
+<h3>imtools.py, pca.py, sift.py</h3>
+<p>前述のものと同じです。
+
+<h2>4章</h2>
+
+<h3>準備</h3>
+
+<p><a href="http://www.robots.ox.ac.uk/~vgg/data/data-mview.html">http://www.robots.ox.ac.uk/~vgg/data/data-mview.html</a>の「Model House」から「3D geometry: points, line segments, camera matrices」をクリックして、3D.tar.gzをダウンロードします。そこから、house.p3dを取り出します。
+<pre>
+$ tar xvzf 3D.tar.gz house.p3d
+</pre>
+
+<p>pca_data.zipから、book_frontal.JPG, book_perspective.JPG, book_perspective.bmpを展開してカレントディレクトリに置きます。
+
+<p><a href="http://www.pygame.org/wiki/OBJFileLoader">http://www.pygame.org/wiki/OBJFileLoader</a>から、上の部分をコピーして、objloader.pyとして保存します。
+
+<p><a href="http://www.oyonale.com/modeles.php?page=56">http://www.oyonale.com/modeles.php?page=56</a>から、toyplane_obj.zip をダウンロードし、toplane.objを展開します。
+
+<h3>4.1.2.camera.py</h3>
+<p>house.p3dを読み込んで、射影変換して表示します。また、ランダムな軸に回転して表示します。
+
+<h3>4.1.3.rq.py</h3>
+<p>カメラ行列をRQ分解して表示します。
+
+<h3>4.3.cube.py</h3>
+<p>book_frontal.JPGとbook_perspective.JPGのSIFT特徴点を求め、RANSACでロバストに特徴点を対応づけて、カメラパラメータを求め、book_perspective.JPGの上に四角形と立方体を描きます。SIFT特徴量を im0.sift,im1.siftに保存します。推定したカメラパラメータを、ar_camera.pklに保存します。
+
+<h3>4.4.4.teapot.py</h3>
+<p>上で求めたカメラパラメータar_camera.pklを読み込んで、book_perspective.bmpの上に、ユタ・ティーポットを描画します。
+
+<h3>4.4.5.toyplane.py</h3>
+<p>上で求めたカメラパラメータar_camera.pklを読み込み、飛行機の3Dモデルtoyplane.objを読み込んで、book_perspective.bmpの上に、飛行機を描画します。3Dモデルの読み込みに多少の時間がかかります。
+
+<h3>camera.py</h3>
+<p>カメラパラメータを管理するCameraクラスです。
+
+<h3>toyplane.mtl</h3>
+<p>飛行機の3Dモデル用のマテリアルファイルです。
+
+<h3>sift.py, homograpy.py, ransac.py</h3>
+<p>前述のものと同じです。
+
+<h2>5章</h2>
+<h3>準備</h3>
+<a href="http://www.robots.ox.ac.uk/~vgg/data/data-mview.html">http://www.robots.ox.ac.uk/~vgg/data/data-mview.html</a>の「Merton College I」から、以下のファイルをダウンロードして展開してください。
+<ul>
+<li>「images - 3 frames」からimages.tar.gzをダウンロードし、サブディレクトリ images/に展開してください。
+<li>「2D geometry: interest points, line segments, matches」から2D.tar.gz をダウンロードして、サブディレクトリ 2D/に展開してください。
+<li>「3D geometry: camera matrices, points, line segments」から3D.tar.gz をダウンロードして、サブディレクトリ 3D/に展開してください。
+</ul>
+
+<p>pca_data.zipから、alcatraz1.jpg, alcatraz2.jpgを展開してカレントディレクトリに置きます。
+
+<p><a href="http://vision.middlebury.edu/stereo/data/scenes2001/">http://vision.middlebury.edu/stereo/data/scenes2001/</a>の「Tsukuba」をクリックし、scene1.row3.col3.ppmと、scene1.row3.col4.ppmをダウンロードします。
+
+
+<h3>5.1.1.merton2d.py</h3>
+<p>Merton Collegeのデータを読み込み、画像の上にコーナーを描画します。
+
+<h3>5.1.2.testplot3d.py</h3>
+<p>テストデータを3Dプロットします。
+
+<h3>5.1.2.merton3d.py</h3>
+<p>Merton Collegeのデータを読み込み、コーナーを3Dプロットします。マウスの左ボタンのドラッグ操作で回転、右ボタンのドラッグ操作で拡大縮小することができます。
+
+<h3>5.1.4.sfm.py</h3>
+<p>エピ極とエピポーラ線を描画します。
+
+<h3>5.2.1.triangulate.py</h3>
+<p>三角測量を実行し、復元した3Dの点と正解の点を描画します。
+
+<h3>5.2.2.compute.py</h3>
+<p>3D点の対応からカメラ行列を推定して描画します。
+
+<h3>5.3.2.recon3d.py</h3>
+<p>alcatraz1.jpgとalcatraz2.jpgのSIFT特徴点を求め、RANSACでロバストに対応づけて、カメラ行列を求め、特徴点の3D座標を推定して描画します。計算に非常に時間がかかります。
+
+<h3>5.4.1.stereo.py</h3>
+<p>scene1.row3.col3.ppmとscene1.row3.col4.ppmを読み込んで、視差マップ画像を計算します。一様フィルタの結果を depth.png、ガウシアンを用いた結果を depthg.pngに保存します。
+
+<h3>load_vggdata.py</h3>
+<p>Merton College I の画像、2D、3Dデータを読み込むモジュールです。
+
+<h3>sfm.py</h3>
+<p>カメラパラメータを推定するモジュールです。
+
+<h3>stereo.py</h3>
+<p>ステレオ画像の視差マップを計算するモジュールです。
+
+<h3>sift.py, homograpy.py, ransac.py, camera.py</h3>
+<p>前述のものと同じです。
+
+<h2>6章</h2>
+
+<h3>準備</h3>
+<p>pca_data.zip に含まれるselectedimages.zipを展開し、画像ファイルをサブディレクトリ selected_fontimages/ にコピーします。
+
+<p>pca_data.zip から empire.jpg を展開します。
+
+<p>pca_data.zip に含まれるsunsets.zipを展開し、画像ファイルをサブディレクトリ flickr-sunsets/ にコピーします。
+
+<p>1章で保存したfont_pca_modes.pklをコピーします。
+
+<p>2章でダウンロードしたpanoramio/*.jpgと、計算して保存した panoramio_matchscores.pklをコピーします。
+
+
+<h3>6.1.1.kmeans.py</h3>
+<p>k平均法を用いて、ランダムな2Dの点をクラスタリングして描画します。
+
+<h3>6.1.2.img_clustering.py</h3>
+<p>フォント画像の主成分分析の結果font_pca_modes.pklを用いて、selected_fontimages/*.jpgの第40主成分までを射影して、k平均法でクラスタリングします。
+
+<h3>6.1.3.plot_cluster.py</h3>
+<p>2つの主成分に射影した結果を2Dプロットします。
+
+<h3>6.1.4.pixel.py</h3>
+<p>k平均法を使ってピクセルをクラスタリングして表示します。
+
+<h3>6.2.hcluster.py</h3>
+<p>ランダムな2群の数字を階層クラスタリングします。
+
+<h3>6.2.1.sunset_hclustering.py</h3>
+<p>flickr-sunsets/*.jpg を階層クラスタリングし、系統図と3要素以上あるクラスタを表示します。系統図は、sunset.pdf に保存されます。
+
+<h3>6.2.1.font_hclustering.py</h3>
+<p>selected_fontimages/*.jpgを階層クラスタリングして、系統図を表示します。系統図は、fonts.jpg に保存されます。
+
+<h3>6.3.font_spectral.py</h3>
+<p>フォント画像をスペクトラルクラスタリングし、クラスタを表示します。
+
+<h3>6.3.pano_spectral.py</h3>
+<p>Panoramio画像をスペクトラルクラスタリングし、クラスタを表示します。
+
+<h3>hcluster.py</h3>
+<p>階層クラスタリングをするモジュールです。
+
+<h3>imtools.py</h3>
+<p>1章と同じです。
+
+<h2>7章</h2>
+
+<h3>準備</h3>
+<p><a href="http://www.vis.uky.edu/~stewe/ukbench/">http://www.vis.uky.edu/~stewe/ukbench/</a>の「Download」の「Zipped File」をクリックして、ukbench.zip をダウンロードしてください。約1.5GBあります。これに含まれるファイルのうち、ukbench00000.jpg～ukbench00999.jpgを、サブディレクトリ first1000/にコピーします。
+
+<h3>7.2.1.mk_imlist.py</h3>
+<p>first1000/*.jpg の一覧から、ukbench_imlist.pklとwebimlist.txtを保存します。
+
+<h3>7.2.1.mk_sift.py</h3>
+<p>first1000/*.jpgのSIFT特徴量を計算し、first1000/*.siftとして保存します。1000枚の画像を処理するのに時間がかかります。
+
+<h3>7.2.1.mk_voc.py</h3>
+<p>first1000/*.siftを読み込んで、ボキャブラリを学習して、vocabulary.pklを保存します。学習に非常に時間がかかります。また、メモリ不足だとMemoryErrorで異常終了することがあります。その場合には、使用する画像枚数を減らして下さい。
+
+<h3>7.3.2.mk_index.py</h3>
+<p>vocabulary.pklを読み込んで、SQLiteのデータベースファイルtest.dbにインデクスを登録します。
+
+<h3>7.3.2.query.py</h3>
+<p>test.dbから、画像数と、最初の画像ファイル名を問い合わせて表示します。
+
+<h3>7.4.1.imagesearch.py</h3>
+<p>先頭の画像に類似した画像IDを10件表示します。ビジュアルワードのヒストグラムの一致数だけを用いているので精度が悪いです。
+
+<h3>7.4.2.query_by_image.py</h3>
+<p>先頭の画像に類似した画像IDを10件表示します。ヒストグラムの距離を用いているので、精度が良くなります。
+
+<h3>7.4.3.bench.py</h3>
+<p>ukbenchスコアを計算します。処理に時間がかかります。
+
+<h3>7.4.3.plot.py</h3>
+<p>先頭画像に類似した画像の検索結果を描画します。
+
+<h3>7.5.rerank.py</h3>
+<p>特徴点の一致度を用いて、リランキングします。
+
+<h3>vocabulary.py</h3>
+<p>ビジュアルワードのボキャブラリを学習するためのモジュールです。
+
+<h3>imagesearch.py</h3>
+<p>画像検索のモジュールです。
+
+<h3>searchdemo.py</h3>
+<p>CherryPiを用いた画像検索Webアプリです。webimlist.txt、vocabulary.pklを読み込みます。設定ファイルservice.confを編集する必要があります。
+
+<h3>loaddata.py</h3>
+<p>ukbench_imlist.pklとvocabulary.pklを読み込むモジュールです。
+
+<h3>imtools.py, homograpy.py, sift.py</h3>
+<p>前述のものと同じです。
+
+<h2>8章</h2>
+
+<h3>準備</h3>
+<p>
+<a href="http://www.idiap.ch/resource/gestures/">http://www.idiap.ch/resource/gestures/</a>の「Sebastien Marcel Static Hand Posture Database」から、「test_set_16.3Mb」をクリックし、shp_marcel_test.tar.gzをダウンロードします。
+展開して、{A,B,C,Five,Point,V}のそれぞれのuniform/の中にあるppmファイルを、だいたい半分ずつ、訓練用 train/ と、テスト用 test/にコピーします。たとえば、次のように分配します。
+<ul>
+<li>train/A-uniform01～29.ppm, test/A-uniform30～59.ppm
+<li>train/B-uniform01～29.ppm, test/B-uniform30～61.ppm
+<li>train/C-uniform01～29.ppm, test/C-uniform30～65.ppm
+<li>train/Five-uniform01～29.ppm, test/Five-uniform30～76.ppm
+<li>train/Point-uniform01～29.ppm, test/Point-uniform30～65.ppm
+<li>train/V-uniform01～29.ppm, test/V-uniform30～57.ppm
+</ul>
+次のようにshellのワイルドカードを活用してmvすると簡単に分配できます。
+<pre>
+$ mv Marcel-Test/*/uniform/*uniform[0-2]?.ppm train
+$ mv Marcel-Test/*/uniform/*.ppm test
+</pre>
+
+<p>pcv_data.zipに含まれるsudoku_images.zipから、sudoku_images/ocr_data/{training,testing}/*.jpg を展開します。
+
+<h3>8.1.1.mk_2dp.py</h3>
+<p>ランダムな2D座標を生成し points_normal.pklとpoints_ring.pklに保存します。いちど実行して、points_normal.pkl を points_normal_test.pkl、points_ring.pkl を points_ring_test.pkl にコピーしてから、もう一度実行して、合計4つのpklファイルを作成してください。
+
+<h3>8.1.1.knn_n.py</h3>
+<p>points_normal.pklとpoints_normal_test.pklを読み込んで、k近傍法で分類して、表示します。時間がかかります。
+
+<h3>8.1.1.knn_r.py</h3>
+<p>points_ring.pklとpoints_ring_test.pklを用います。
+
+<h3>8.1.2.dsift.py</h3>
+<p>empire.jpgの密なSIFT特徴量を計算してempire.siftに保存し、特徴点を表示します。
+
+<h3>8.1.3.mk_dsift.py</h3>
+<p>test/*.jpg と train/*.jpg について、密なSIFT特徴量を求めて、test/*.dsift、train/*.dsift を作成します。
+
+<h3>8.1.3.knn_g.py</h3>
+<p>k近傍法分類器を train/*.dsiftを用いて訓練し、test/*.dsiftでテストして結果を表示します。
+
+<h3>8.2.bayes_n.py</h3>
+<p>points_normal.pklとpoints_normal_test.pklを読み込んで、ベイズ分類器で分類して、表示します。多少時間がかかります。
+
+<h3>8.2.bayes_r.py</h3>
+<p>points_ring.pklとpoints_ring_test.pklを用います。
+
+<h3>8.2.1.bayes_g.py</h3>
+<p>ベイズ分類器を train/*.dsiftを用いて訓練し、test/*.dsiftでテストして結果を表示します。
+
+<h3>8.3.1.svm_n.py</h3>
+<p>points_normal.pklとpoints_normal_test.pklを読み込んで、SVMで分類して、表示します。
+
+<h3>8.3.1.svm_r.py</h3>
+<p>points_ring.pklとpoints_ring_test.pklを用います。
+
+<h3>8.3.2.svm_g.py</h3>
+<p>SVMを train/*.dsiftを用いて訓練し、test/*.dsiftでテストして結果を表示します。
+
+<h3>8.4.3.ocr.py</h3>
+<p>sudoku_images/ocr_data/training/*.jpg を用いてSVMを訓練し、sudoku_images/ocr_data/testing/*.jpg でテストします。
+また、sudoku_images/sudokus/sudoku18.JPG を読み込み、数字の認識結果を表示します。
+
+<h3>8.4.5.rectify.py</h3>
+<p>sudoku_images/sudokus/sudoku8.JPGを表示するので、枠の4隅を左上から順に時計回りにクリックしてください。しばらくすると、位置合わせをした画像を表示します。
+
+<h3>dsift.py</h3>
+<p>siftを実行して密なSIFT特徴量を計算し .siftファイルを保存するモジュールです。
+
+<h3>knn.py</h3>
+<p>k近傍法分類器のモジュールです。
+
+<h3>bayes.py</h3>
+<p>ベイズ分類器のモジュールです。
+
+<h3></h3>
+<p>前述のものと同じです。
+
+<h2>9章</h2>
+<h3>準備</h3>
+<p>pcv_data.zipからempire.jpg、ceramic-houses_t0.pngを展開してカレントディレクトリに置いて下さい。
+
+<p><a href="http://research.microsoft.com/en-us/um/cambridge/projects/visionimagevideoediting/segmentation/grabcut.htm">http://research.microsoft.com/en-us/um/cambridge/projects/visionimagevideoediting/segmentation/grabcut.htm</a>の「Ground truth database」の「Labelling - Rectangle」をクリックし、boundary_GT_rect.zipをダウンロードして、376043.bmpをカレントディレクトリに展開します。
+
+<p><a href="http://www.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/segbench/">http://www.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/segbench/</a>の「Downloads　Segmentation Dataset」の[images]をクリックして、BSD300-images.tgz をダウンロードして展開します。BSD300/images/test/376043.jpg をカレントディレクトリにコピーします。
+
+<p>8章の準備で説明した「Sebastien Marcel Static Hand Posture Database」のshp_marcel_test.tar.gzから、C/uniform/C-uniform03.ppm をカレントディレクトリに展開します。
+
+<h3>9.1.graphcut.py</h3>
+<p>サンプルのグラフをカットします。
+
+<h3>9.1.1.graphcut.py</h3>
+<p>empire.jpgをグラフカットで領域分割して表示します。非常に時間がかかります。
+
+<h3>9.1.2.grabcut.py</h3>
+<p>376043.bmpを注釈データとして、376043.jpgをグラフカットで領域分割して、labelplot.pdfに保存します。非常に時間がかかります。
+
+<h3>9.2.ncut.py</h3>
+<p>C-uniform03.ppmを正規化カットで領域分割します。時間がかかります。
+
+<h3>9.3.chanvese.py</h3>
+<p>Chan-Vese領域分割モデルに基づき、ceramic-houses_t0.pngを領域分割して表示します。時間がかかります。
+
+<h3>graphcut.py</h3>
+<p>グラフカットを実行するモジュールです。
+<h3>ncut.py</h3>
+<p>正規化カットを実行するモジュールです。
+<h3>bayse.py, rof.py</h3>
+<p>前述のものと同じです。
+
+<h2>10章</h2>
+<h3>準備</h3>
+<p>pcv_data.zipからempire.jpg、fisherman.jpgを展開してカレントディレクトリに置いて下さい。
+
+<p><a href="http://www.robots.ox.ac.uk/~vgg/data/data-mview.html">http://www.robots.ox.ac.uk/~vgg/data/data-mview.html</a>のページから、「Dinosaur」の「Images - 36 frames」をクリックして、images.tar.gzをダウンロードし、viff.*.ppm を展開します。
+
+<p>上と同じページから、「Corridor」の「Images - 11 frames」をクリックして、images.tar.gzをダウンロードし、bt.*.pgm を展開します。
+
+
+<h3>10.2.1.loadsave.py</h3>
+<p>OpenCVを用いて、empire.jpg を読み込み、サイズを表示して、PNG形式でresult.pngを保存します。また、グレースケール画像をresultgray.pngに保存します。
+
+<h3>10.2.3.integral.py</h3>
+<p>fisherman.jpgを読み込み、積分画像を作成して、result.jpgに保存します。
+
+<h3>10.2.3.floodfill.py</h3>
+<p>fisherman.jpgを読み込み、単色で塗りつぶして表示します。何かキーを押すとウィンドウが閉じます。結果をresult.jpgに保存します。
+
+<h3>10.2.3.surf.py</h3>
+<p>empire.jpgのSURF特徴量を計算して表示します。
+
+<h3>10.3.1.video.py</h3>
+<p>test.aviから動画をキャプチャし、スペースを押すとフレームをvid_result.jpgに保存します。ESCで終了します。
+
+<h3>10.3.1.video_gauss.py</h3>
+<p>test.aviから動画をキャプチャし、ガウシアンでぼかします。ESCで終了します。
+
+<h3>10.3.2.video.py</h3>
+<p>test.aviから動画をキャプチャし、NumPy配列に格納します。ESCで終了します。
+
+<h3>10.4.1.optflow.py</h3>
+<p>test.aviから動画をキャプチャし、オプティカルフローを描画します。
+
+<h3>10.4.2.1.lk.py</h3>
+<p>Lucas-Kanade法を使って、bt.003.pgm ～ bt.000.pgm の特徴点を追跡します。何かキーを押すと、次のフレームを表示します。
+
+<h3>10.4.2.2.lk_gen.py</h3>
+<p>Lucas-Kanade法を使って、viff.000.ppm ～ viff.004.ppm の特徴点を追跡して奇跡を描画します。
+
+<h3>lktrack.py</h3>
+<p>Lucas-Kanade法を使って特徴点を追跡するモジュールです。
+
+<h2>付録B</h2>
+<h3>準備</h3>
+<p><a href="https://code.google.com/p/flickrpy/">https://code.google.com/p/flickrpy/</a>からflickr.pyをダウンロードします。
+<p><a href="http://www.flickr.com/services/api/keys/">FlickrのAPI Keys</a>で認証すると、KeyとSecretのキーが発行されるので、flickr.pyを編集してAPI_KEYとAPI_SECRETに設定します。
+
+<h3>tagdownload.py</h3>
+<p>Flickrから指定したタグの付いた画像をダウンロードするプログラムです。
+次のように実行します。
+<pre>
+$ python tagdownload.py sunset
+</pre>
+<p>カレントディレクトリに画像ファイルとファイルのURLリスト urllist.txt が保存されます。
+</body>
+</html>
